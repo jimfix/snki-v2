@@ -18,34 +18,34 @@ The full **Snek** language for this assignment is given by the following grammar
 
 ~~~ none
 
-&lt;prgm&gt; ::= &lt;defn&gt;  ... &lt;defn&gt; &lt;blck&gt;
-&lt;defn&gt; ::= def &lt;name&gt; ( &lt;name&gt; , ... , &lt;name&gt; ) : &lt;nest&gt;
-&lt;nest&gt; ::= INDT &lt;blck&gt; DEDT
-&lt;blck&gt; ::= &lt;stmt&gt; &lt;stmt&gt; ... &lt;stmt&gt;
-&lt;stmt&gt; ::= &lt;name&gt; &lt;updt&gt; &lt;expn&gt; EOLN
+<prgm> ::= <defn>  ... <defn> <blck>
+<defn> ::= def <name> ( <name> , ... , <name> ) : <nest>
+<nest> ::= INDT <blck> DEDT
+<blck> ::= <stmt> <stmt> ... <stmt>
+<stmt> ::= <name> <updt> <expn> EOLN
          | pass EOLN
-         | print ( &lt;expn&gt; , ... , &lt;expn&gt; ) EOLN
-         | if &lt;expn&gt; : &lt;nest&gt; else : &lt;nest&gt;
-         | while &lt;expn&gt; : &lt;nest&gt;
-         | return &lt;expn&gt; EOLN
+         | print ( <expn> , ... , <expn> ) EOLN
+         | if <expn> : <nest> else : <nest>
+         | while <expn> : <nest>
+         | return <expn> EOLN
          | return EOLN
-         | &lt;name&gt; ( &lt;expn&gt; , ... , &lt;expn&gt; ) EOLN
-&lt;updt&gt; ::= += | -=
-&lt;expn&gt; ::= &lt;expn&gt; &lt;bnop&gt; &lt;expn&gt;
-         | &lt;unop&gt; &lt;expn&gt;
-         | input ( &lt;expn&gt; ) | int ( &lt;expn&gt; ) | str ( &lt;expn&gt; )
-         | &lt;name&gt; | &lt;ltrl&gt; | ( &lt;expn&gt; )
-         | &lt;name&gt; ( &lt;expn&gt; , ... , &lt;expn&gt; )         
-&lt;bnop&gt; ::= + | - | * | // | %
-         | &lt; | &lt;= | == 
+         | <name> ( <expn> , ... , <expn> ) EOLN
+<updt> ::= += | -=
+<expn> ::= <expn> <bnop> <expn>
+         | <unop> <expn>
+         | input ( <expn> ) | int ( <expn> ) | str ( <expn> )
+         | <name> | <ltrl> | ( <expn> )
+         | <name> ( <expn> , ... , <expn> )         
+<bnop> ::= + | - | * | // | %
+         | < | <= | == 
          | and | or
-&lt;unop&gt; ::= not
-&lt;ltrl&gt; ::= &lt;nmbr&gt; | &lt;strg&gt; | &lt;bool&gt; | &lt;unit&gt;
-&lt;name&gt; ::= x | count | _special | y0 | camelWalk | snake_slither | ...
-&lt;nmbr&gt; ::= 0 | 1 | 2 | 3 | ...
-&lt;bool&gt; ::= True | False
-&lt;unit&gt; ::= None
-&lt;strg&gt; ::= "hello" | "" | ...
+<unop> ::= not
+<ltrl> ::= <nmbr> | <strg> | <bool> | <unit>
+<name> ::= x | count | _special | y0 | camelWalk | snake_slither | ...
+<nmbr> ::= 0 | 1 | 2 | 3 | ...
+<bool> ::= True | False
+<unit> ::= None
+<strg> ::= "hello" | "" | ...
 
 ~~~
 
@@ -99,9 +99,9 @@ for this example) is not indented.
 
 The grammar rules that specify this are:
 ~~~ none
-&lt;defn&gt; ::= def &lt;name&gt; ( &lt;name&gt; , ... , &lt;name&gt; ) : &lt;nest&gt;
-&lt;nest&gt; ::= INDT &lt;blck&gt; DEDT
-&lt;blck&gt; ::= &lt;stmt&gt; &lt;stmt&gt; ... &lt;stmt&gt;
+<defn> ::= def <name> ( <name> , ... , <name> ) : <nest>
+<nest> ::= INDT <blck> DEDT
+<blck> ::= <stmt> <stmt> ... <stmt>
 ~~~
 A parser is expected to get a token stream that includes these
 special `INDT` and `DEDT` tokens that summarize the indentation
@@ -115,12 +115,12 @@ open and closed curly brace notation, where blocks are marked with
 There are two kinds of `return` statements for exiting a called
 routine. If the definition is of a function, then the syntax is
 ~~~ none
-    &lt;stmt&gt; ::= return &lt;expn&gt; EOLN
+    <stmt> ::= return <expn> EOLN
 ~~~
 and the value being returned is specified just after the `return`
 token. If instead a procedure is being defined, then the syntax is
 ~~~ none
-    &lt;stmt&gt; ::= return EOLN
+    <stmt> ::= return EOLN
 ~~~
 which exits the procedure immediately.
 
@@ -133,7 +133,7 @@ within the interpreter component.
 
 A procedure call occurs as a program statement and has this syntax:
 ~~~ none
-    &lt;stmt&gt; ::= &lt;name&gt; ( &lt;expn&gt; , ... , &lt;expn&gt; ) EOLN
+    <stmt> ::= <name> ( <expn> , ... , <expn> ) EOLN
 ~~~
 This means it is invoked by name with 0 or more parameter
 values passed as the arguments given by the expressions in parentheses.
@@ -152,7 +152,7 @@ gets rid of the "straight line" execution of our programs.
 
 The language now has a while loop that has the syntax:
 ~~~ none
-    &lt;stmt&gt; ::= while &lt;expn&gt; : &lt;nest&gt;
+    <stmt> ::= while <expn> : <nest>
 ~~~
 The expression after the `while` gives the condition for continuing
 execution of the loop. It is expected to be of boolean type meaning
@@ -161,9 +161,9 @@ follows it should be indented. Any loop bodies nested inside a
 loop should be indented further. For example:
 ~~~ none
 r = 0
-while r &lt; 10:
+while r < 10:
     c = 0
-    while c &lt; 10:
+    while c < 10:
         print(str(r)+str(c))
         c += 1
     r += 1
@@ -180,7 +180,7 @@ and value equality checks, as well as the logical connectives
 `and` and `or`. These are expressed as binary operations in the
 language. We also have a unary `not` for logical negation.
 
-Because these are `&lt;expn&gt;` constructs, we can assign variables
+Because these are `<expn>` constructs, we can assign variables
 boolean values, and we can invent boolean predicate functions
 that return `True` or `False`.
 
@@ -188,7 +188,7 @@ that return `True` or `False`.
 
 There is a conditional "if-else" statement with the syntax:
 ~~~ none
-    &lt;stmt&gt; ::= if &lt;expn&gt; : &lt;nest&gt; else : &lt;nest&gt;
+    <stmt> ::= if <expn> : <nest> else : <nest>
 ~~~
 Like the `while`, this takes a boolean expression, but here
 there are two indented blocks of code---the code that should
@@ -220,7 +220,7 @@ Having a wider variety of types means that some
 of the binary operations can have overloaded meaning. Already, 
 we can concatenate strings with `+` and repeat them with `*`. 
 We might also want to compare strings (and maybe even booleans)
-with `&lt;`, etc. 
+with `<`, etc. 
 
 Operator precedence rules are richer.
 The logical operations have the lowest precedence but, among them, logical
@@ -229,22 +229,22 @@ negation with `not` is the highest, then `and`, and then `or`. Both `and` and
 
 Sitting at a precedence level between the arithmetic and the logical operations
 are the comparison operations. **These have no associativity**, meaning
-(for example) you cannot express a condition like `a &lt; b &lt; c` in this
-language.  Rather than `a &lt; b &lt; c`, you are forced to use a combination
+(for example) you cannot express a condition like `a < b < c` in this
+language.  Rather than `a < b < c`, you are forced to use a combination
 of parentheses and the logical connectives to reason about the results of
-comparisons, writing this as `(a &lt; b) and (b &lt; c)`. Now, focusing on this
-example, it turns out also that you can write this as `a &lt; b and b &lt; c`.
+comparisons, writing this as `(a < b) and (b < c)`. Now, focusing on this
+example, it turns out also that you can write this as `a < b and b < c`.
 This is because comparisons have lower prcedecence than the arithmetic
 expressions that they typically reason about, and higher than the logical
 operations that string the comparisons together.
 
 This all means, for example, that
 ~~~ python
-x &gt; y + z * 2 and not x * x &lt; w or x == w
+x > y + z * 2 and not x * x < w or x == w
 ~~~
 should be parsed the same as
 ~~~ python
-((x &gt; (y + (z * 2))) and (not ((x * x) &lt; w))) or (x == w)
+((x > (y + (z * 2))) and (not ((x * x) < w))) or (x == w)
 ~~~
 
 We also have a variety of assignment/update operations, namely
@@ -333,9 +333,9 @@ is a summary of the token section:
 %token               PRNT "print"
 ...
 %token               RPAR ")"
-%token &lt;int&gt;         NMBR
-%token &lt;std::string&gt; NAME
-%token &lt;std::string&gt; STRG
+%token <int>         NMBR
+%token <std::string> NAME
+%token <std::string> STRG
 ~~~
 These lines ultimately define a enumerated type within the C++ code
 generated by **Bison**. What we are seeing is three kinds of tokens:
@@ -385,7 +385,7 @@ In the above, we have elided some of the details with `...`.  The important
 thing to pay attention to in the above rule is that, instead of a grammar
 rule that says:
 ~~~
-&lt;stmt&gt; ::= print ( &lt;expn&gt; ) EOLN
+<stmt> ::= print ( <expn> ) EOLN
 ~~~
 we instead use those four letter codes for each token like `print` and `(`.
 
@@ -407,9 +407,9 @@ and string literals, an `int` for number literals---because these tokens
 carry that additional information. The last lines of this token section
 gives the C++ type specification of that additional information:
 ~~~ none
-%token &lt;int&gt;         NMBR
-%token &lt;std::string&gt; NAME
-%token &lt;std::string&gt; STRG
+%token <int>         NMBR
+%token <std::string> NAME
+%token <std::string> STRG
 ~~~
 We will describe below how this additional information can be used in
 our parsing rules. For now I can give you a short preview. The **Bison**
@@ -421,8 +421,8 @@ stmt:
   }
 ~~~
 This rule tells **Bison** that when the scanner finds a `NAME` followed by
-an `ASGN` at the start of a `&lt;stmt&gt;` (something like `count =`)
-consume those two tokens and then work to parse an `&lt;expn&gt;` followed by
+an `ASGN` at the start of a `<stmt>` (something like `count =`)
+consume those two tokens and then work to parse an `<expn>` followed by
 an end-of-line token. The C++ code instructs the parser to then create
 a new `Asgn` node with three pieces of information: the name of the variable,
 the parsed right-hand-side expression, and the location of the `=` operation.
@@ -435,7 +435,7 @@ the information attached with `NAME` in the first position of the rule
 is of type `std::string`. And that is because we told **Bison** this
 with the token declaration:
 ~~~ none
-%token &lt;std::string&gt; NAME
+%token <std::string> NAME
 ~~~
 And so that means that **Bison** will use the fact that the expression
 `$1` is of type `std::string` to generate the C++ parser code 
@@ -492,17 +492,17 @@ variables.  These are told to **Bison** so that it learns the result types
 of all the actions associated with each grammar production rule.  Here
 is that variable section in the starter code:
 ~~~ none
-%type &lt;Prgm_ptr&gt; prgm
-%type &lt;Blck_ptr&gt; blck
-%type &lt;Stmt_vec&gt; stms
-%type &lt;Stmt_ptr&gt; stmt
-%type &lt;Expn_ptr&gt; expn
+%type <Prgm_ptr> prgm
+%type <Blck_ptr> blck
+%type <Stmt_vec> stms
+%type <Stmt_ptr> stmt
+%type <Expn_ptr> expn
 ~~~
 I hope it's clear what's going on here. The first line tells **Bison**
-that `&lt;prgm&gt;`-related production rules lead to parser actions
+that `<prgm>`-related production rules lead to parser actions
 that, having fired, return a (smart) pointer to a new AST node of type
-`Prgm`. A similar assertion is being made for `&lt;blck&gt;`, `&lt;stmt&gt;`, and
-`&lt;expn&gt;` production rules. We essentially saw the use of this information
+`Prgm`. A similar assertion is being made for `<blck>`, `<stmt>`, and
+`<expn>` production rules. We essentially saw the use of this information
 when we inspected the `.yy` code lines
 ~~~ none
 stmt:
@@ -510,12 +510,12 @@ stmt:
       $$ = Asgn_ptr { new Asgn {$1,$3,lexer.locate(@2)} };
   }
 ~~~
-Since **Bison** is parsing a `&lt;stmt&gt;` when it consumes source code of the
-form `&lt;name&gt; = &lt;expn&gt; EOLN`, the parser will return a new assignment
+Since **Bison** is parsing a `<stmt>` when it consumes source code of the
+form `<name> = <expn> EOLN`, the parser will return a new assignment
 statement AST node pointer. And the type `Asgn_ptr` happens to be
 copacetic with our specification line:
 ~~~ none
-%type &lt;Stmt_ptr&gt; stmt
+%type <Stmt_ptr> stmt
 ~~~
 That is to say, if our parser builds something of type `Asgn_ptr`
 then that value can be used as a `Stmt_ptr` in the code because
@@ -523,12 +523,12 @@ the `Asgn` class is derived from the `Stmt` class.
 
 Note that one of the specifications is not like the others namely
 ~~~ none
-%type &lt;Stmt_vec&gt; stms
+%type <Stmt_vec> stms
 ~~~
 Rather than introduce a new AST node type for sequences of statements,
-we chose instead to use the type `std::vector&lt;Stmt_ptr&gt;`, which we
+we chose instead to use the type `std::vector<Stmt_ptr>`, which we
 aliased as `Stmt_vec`. Our parsing, however, was made less cumbersome
-by introducing a new variable `&lt;stms&gt;` and parsing it with the lines
+by introducing a new variable `<stms>` and parsing it with the lines
 ~~~ none
 stms:
   stms stmt {
@@ -543,7 +543,7 @@ stms:
   }
 ;
 ~~~
-The C++ code for each rule manipulates a `std::vector&lt;Stmt&gt;`. In the
+The C++ code for each rule manipulates a `std::vector<Stmt>`. In the
 base case of a single statement, we build a vector of length one. In the
 recursive case of two or more statements, we extend it with `push_back`
 to add the last statement parsed.
@@ -559,7 +559,7 @@ introduce new left-hand sides to the grammar. For example, you may want
 to do this to process the formal parameters of functions in their
 `def` line. You may also want to do this for processing the actual
 parameter expressions passed as arguments in a function call
-(say, with a `std::vector&gt;Name&lt;` and a `std:vector&lt;Expn_ptr&gt;`).
+(say, with a `std::vector>Name<` and a `std:vector<Expn_ptr>`).
 
 If you do need to introduce new variables in your **Bison** spec beyond the
 five we've listed, here is where you do it.
@@ -600,7 +600,7 @@ lhs:
 When we say this, we are describe a construct of the language with a variable
 `lhs` that corresponds to a grammar's production
 ~~~ none
-&lt;lhs&gt; ::= rhs_1 | rhs_2 | ... | rhs_k
+<lhs> ::= rhs_1 | rhs_2 | ... | rhs_k
 ~~~
 that is, there are `k` ways to expand the variable using the grammar.
 
@@ -706,7 +706,7 @@ This tells **Bison** that `+` and `-` have lower precedence than
 associative. To include a unary operation in the hierarchy, you
 use the `%precedence` directive, something like `%precedence NOT;`
 if `NOT` is your token for `not`. To include "non-associative"
-binary operations (like `&lt;`) you use the `%nonassoc` directive.
+binary operations (like `<`) you use the `%nonassoc` directive.
   
 ## 5. Making AST methods for `dump` and for the interpreter.
 
@@ -747,11 +747,11 @@ the defining block of that procedure or function.
 To make this more clear, consider the program:
 ~~~ none
 def is_prime(number):
-    if number &lt;= 1:
+    if number <= 1:
         return False
     else:
         divisor = 2
-        while divisor &lt; number:
+        while divisor < number:
             if number % divisor == 0:
                 return False
             else:
@@ -775,11 +775,11 @@ The parse tree for the body of `is_prime` will have the form
                     BLCK
                         IFEL
                             BLCK
-==&gt;                             RTRN
+==>                             RTRN
                                     ...
                 RTRN
 ~~~
-In particular, the `RTRN` line marked with `==&gt;` is within
+In particular, the `RTRN` line marked with `==>` is within
 the fourth nested block of code. (There are 4 `BLCK` descendants
 within the tree.) This means that when we handle the `exec`
 of that `return`, we will be in the middle of several recursive
@@ -806,12 +806,12 @@ invent a `call` method.
 And then also you'll need to change `Pgrm` AST node so that, in addition
 to the `main` block of script code, it also houses all the functions and
 procedures introduced by `def` above the main script. This could be something
-like a `std::vector&lt;Defn_ptr&gt;` or maybe an `unordered_map`. I'll let you
+like a `std::vector<Defn_ptr>` or maybe an `unordered_map`. I'll let you
 decide what you want to use to represent this information.
 Within `snek-ast.hh` I've included a `typedef` line for a new
 type called `Defs`. This can be the type used for that
 collection of function and procedure definitions. I've set it
-to be `std::vector&lt;Defn_ptr&gt;` but, again, you can make this
+to be `std::vector<Defn_ptr>` but, again, you can make this
 what you want.
 
 ### Coding `eval` to handle a variety of types of values
@@ -824,7 +824,7 @@ Valu eval( ..., const Ctxt& ctxt) { ... }
 ~~~
 and then we have declared the type `Valu` as
 ~~~  none
-typedef std::variant&lt;int, bool, std::string, unit&gt; Valu;
+typedef std::variant<int, bool, std::string, unit> Valu;
 ~~~
 (The `unit` type is just `class None`.) This STL allows us to
 return several different kinds of values from `eval`, each 
@@ -834,22 +834,22 @@ corresponding to the types of values possible within a
 If you are new to `std::variant`, you can have a crash course in
 it by looking at the code for `Plus::eval`, shown below:
 ~~~ none
-    Valu lv = left-&gt;eval(defs,ctxt);
-    Valu rv = rght-&gt;eval(defs,ctxt);
-    if (std::holds_alternative&lt;int&gt;(lv) && std::holds_alternative&lt;int&gt;(rv)) {
-        int ln = std::get&lt;int&gt;(lv);
-        int rn = std::get&lt;int&gt;(rv);
+    Valu lv = left->eval(defs,ctxt);
+    Valu rv = rght->eval(defs,ctxt);
+    if (std::holds_alternative<int>(lv) && std::holds_alternative<int>(rv)) {
+        int ln = std::get<int>(lv);
+        int rn = std::get<int>(rv);
         return Valu {ln + rn};
-    } else if (std::holds_alternative&lt;std::string&gt;(lv)
-               && std::holds_alternative&lt;std::string&gt;(rv)) {
+    } else if (std::holds_alternative<std::string>(lv)
+               && std::holds_alternative<std::string>(rv)) {
         ... // similar code that handles std::string
     } else {
         ... // code that raises an error
     }
 ~~~
 When we get a value back from evaluating a `Plus` node's two subtrees, we
-check with `holds_alternative&lt;int&gt;` to see whether they are holding the `int`
-variant. If so, we extract those two integer values with `get&lt;int&gt;`.
+check with `holds_alternative<int>` to see whether they are holding the `int`
+variant. If so, we extract those two integer values with `get<int>`.
 And then we compute and return the sum by constructing an `int` variant of `Valu`
 with `return Valu {ln + rn};`.
 
@@ -892,7 +892,7 @@ type signature for `exec` methods:
 ~~~ none
 VOpt exec(const Defs& defs, Ctxt& ctxt) { ... }
 ~~~
-The type `VOpt` is just a synonym for `std::optional&lt;Valu&gt;`.
+The type `VOpt` is just a synonym for `std::optional<Valu>`.
 It allows us to *optionally* return a `Valu`.
 The design here is that, if we execute a block of code and encouter a
 `return` that seeks to return the value `rv` then we stop executing
@@ -902,7 +902,7 @@ block of code, then we `return std::nullopt`.
 This is summarized by the code for `Blck::exec` below:
 ~~~ none
     for (Stmt_ptr s : stmts) {
-        std::optional&lt;Valu&gt; rv = s-&gt;exec(defs,ctxt);
+        std::optional<Valu> rv = s->exec(defs,ctxt);
         if (rv.has_value()) {
             return rv;
         } 
@@ -966,7 +966,7 @@ The first two are the same as those we had in Project 0.
 
 Python allows the construct given by
 ~~~ none
-&lt;expn&gt; ::= &lt;expn&gt; if &lt;expn&gt; else &lt;expn&gt; expression
+<expn> ::= <expn> if <expn> else <expn> expression
 ~~~
 Figure out its precedence in Python relative to the other operators,
 and parse these expressions too.
@@ -976,7 +976,7 @@ and parse these expressions too.
 Change the `print` syntax so that 0, 1, or more than one arguments
 can be passed to it, like suggested below
 ~~~ none
-&lt;expn&gt; ::= print ( &lt;expn&gt; , ... , &lt;expn&gt; )  
+<expn> ::= print ( <expn> , ... , <expn> )  
 ~~~
 When executed, the values should be printed on the same line, separated
 by a space. A call to `print()` should print an empty line.
@@ -985,7 +985,7 @@ by a space. A call to `print()` should print an empty line.
 
 Add a unary minus operator `-` to our grammar with
 ~~~ none
-&lt;expn&gt; ::= - &lt;expn&gt;
+<expn> ::= - <expn>
 ~~~
 This should have the highest precedence amongst the unary an binary
 operations. 
@@ -997,7 +997,7 @@ The language as defined forces every `if` to have a corresponding
 statements when no `else` action is actually required. Change the
 syntax to include a statement
 ~~~ none
-&lt;stmt&gt; ::= if &lt;expn&gt; : &lt;stmt&gt;
+<stmt> ::= if <expn> : <stmt>
 ~~~
 so that the syntax is less cumbersome.
 
@@ -1021,7 +1021,7 @@ the condition (`False` for conjunction, `True` for disjunction).
 Right all the things that are wrong with this world by adding a
 statement with the syntax
 ~~~ none
-&lt;stmt&gt; ::= repeat: &lt;nest&gt; until &lt;expn&gt; EOLN
+<stmt> ::= repeat: <nest> until <expn> EOLN
 ~~~
 like what was in the language **Pascal**.
 This will make your instructor very very happy.
@@ -1032,8 +1032,8 @@ We have made our lives easy by only allowing `def` to occur
 at the top level. We instead could have written the grammar
 like so:
 ~~~
-&lt;prgm&gt; ::= &lt;blck&gt;
-&lt;stmt&gt; ::= def &lt;name&gt; ( &lt;name&gt; , ... , &lt;name&gt; ) : &lt;nest&gt;
+<prgm> ::= <blck>
+<stmt> ::= def <name> ( <name> , ... , <name> ) : <nest>
 ~~~
 This would suddenly make "higher order functions" possible
 because a programmer could then write
@@ -1061,7 +1061,7 @@ know the code of the function it represents, and it also needs reference
 to the frame of variables that was active when the function value was
 built.
 
-Doing this properly would eliminate the need for a `std::vector&lt;Defn&gt;` to be
+Doing this properly would eliminate the need for a `std::vector<Defn>` to be
 passed to the methods for executing statements and evaluating expressions,
 but it is conceptually trickier to do this.
 
