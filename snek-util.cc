@@ -1,3 +1,4 @@
+#include <exception>
 #include <sstream>
 #include <variant>
 #include <string>
@@ -42,7 +43,7 @@ SnekError::SnekError(Locn lo, std::string ms) :
     message { snek_message (lo, ms) }
 { }
 
-const char* SnekError::what() {
+const char* SnekError::what() const noexcept {
     return message.c_str();
 }
 

@@ -85,6 +85,9 @@ main:
 
 prgm:
   blck {
+                      // Hack:
+      (void)yynerrs_; // This is to get rid of the "variable set but not used"
+                      // warning from the compiler.
       Defs ds { };
       Blck_ptr b = $1; 
       $$ = Prgm_ptr { new Prgm {ds, b, b->where()} };

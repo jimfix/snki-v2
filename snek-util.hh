@@ -64,7 +64,7 @@ private:
     
 public:    
     SnekError(Locn lo, std::string ms);
-    const char* what();
+    const char* what() const noexcept;
 };
 
 //

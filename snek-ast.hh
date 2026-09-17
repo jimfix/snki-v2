@@ -105,6 +105,7 @@ public:
     AST(Locn lo);
     Locn where(void) const { return locn; }
     virtual void dump(std::ostream& os, std::string indent) const = 0; 
+    virtual ~AST() = default;
 };
 
 
