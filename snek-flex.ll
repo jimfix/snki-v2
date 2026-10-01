@@ -186,7 +186,7 @@
         if (l) {                              
             advance_by_text(txt,l);
         }
-        debug_token(tkn_typ,txt,l);
+        // debug_token(tkn_typ,txt,l);
         return tkn_typ;
     }  
     
