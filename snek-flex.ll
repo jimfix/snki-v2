@@ -53,7 +53,7 @@
     //
     // Some configuration of Flex.
     //
-    #define yyterminate() return token::Token_EOFL
+    #define yyterminate() Snek::Lexer::handle_EOFL()
     #define YY_NO_UNISTD_H
 
     //
@@ -164,7 +164,9 @@
         } else {
             std::cout << txt;
         }
-        std::cout << ":" << l->begin.line << ":" << l->begin.column;
+        if (l) {
+            std::cout << ":" << l->begin.line << ":" << l->begin.column;
+        }
         std::cout << std::endl;
     }
     
@@ -181,8 +183,10 @@
     //
     int Snek::Lexer::issue(int tkn_typ, std::string txt,
                               location_type *l) {
-        advance_by_text(txt,l);
-        // debug_token(tkn_typ,txt,l);
+        if (l) {                              
+            advance_by_text(txt,l);
+        }
+        debug_token(tkn_typ,txt,l);
         return tkn_typ;
     }  
     
@@ -207,6 +211,18 @@
         throw SnekError { locn, msg };
     }
 
+    // lx.handle_EOFL()
+    //
+    // Issues the DEDT tokens for every INDT level on the stack, then an EOFL token.
+    //
+    int Snek::Lexer::handle_EOFL(void) {
+        if (indents.back() > 1) {
+            indents.pop_back();
+            return issue(token::Token_DEDT,"",nullptr); // Don't know how to access lexer state.
+        } else {
+            return issue(token::Token_EOFL,"",nullptr); // Don't know how to access lexer state.
+        }
+    }
 %}
 
 %state MID_LINE DEDENT
@@ -216,13 +232,12 @@
 %option yyclass="Snek::Lexer"
 %option noyywrap
 %option c++
-    
+
 INDT    \t|" " 
 EOLN    \r\n|\n\r|\n|\r
 NMBR    (0|[1-9][0-9]*)
 NAME    [_a-zA-Z][_a-zA-Z0-9]*
 WSPC    {INDT}
-
 
 %%
     
@@ -232,11 +247,15 @@ WSPC    {INDT}
     yylval = lval;
 %}
 
+<<EOF>> {
+    return yyterminate();
+}
 
 <INITIAL>{WSPC}*("#"[^\n\r]*)?{EOLN} {
     // Skip lines that only contain whitespace/comments.
     advance_by_text("\n", loc);
 }
+
 
 <INITIAL>{WSPC}+ {
     //
@@ -424,6 +443,7 @@ WSPC    {INDT}
 }
 
 <MID_LINE>{NMBR} {
+
     // Handle integer literals.
     yylval->build<int>(std::stoi(yytext));
     return issue(token::Token_NMBR, yytext, loc);
@@ -432,10 +452,6 @@ WSPC    {INDT}
 <MID_LINE>{WSPC} {
     // Just skip this whitespace.
     advance_by_text(yytext,loc);
-}
-
-<MID_LINE><<EOF>> {
-    return issue(token::Token_EOFL,"",loc);
 }
 
 <MID_LINE>. {

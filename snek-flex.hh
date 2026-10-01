@@ -52,6 +52,10 @@ namespace Snek {
 
         // Terminate with an error.
         void bail(location_type* l, std::string msg);
+
+        // Terminate with some extra token handling.
+        int handle_EOFL(void);
+        
     };
 
 } 
